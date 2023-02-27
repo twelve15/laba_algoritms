@@ -1,0 +1,39 @@
+import time
+from searching import *
+
+
+def get_simple_numbers_str(count):
+    b = ''
+    if count > 0:
+        for number in range(2, 3571+1):
+            if number > 1:
+                for i in range(2, number):
+                    if (number % i) == 0:
+                        break
+                else:
+                    b += str(number)
+    return b
+
+
+def call_search(search_function):
+    global string
+    results = [0] * (100 - 10)
+
+    start = time.time()
+    for i in range(10, 100):
+        results[i - 10] = [i, search_function(str(i), string)]
+    timer = time.time() - start
+
+    def by2(res: list):
+        return res[1]
+
+    results.sort(key=by2, reverse=True)
+    return (timer, search_function.__name__, results[:1])
+
+
+if __name__ == "__main__": # вызываем каждую функцию по 500 раз как и сказано в задании
+    string = get_simple_numbers_str(500)
+    print(call_search(naive_algoritm))
+    print(call_search(Rabin_Karp_algoritm))
+    print(call_search(Boyer_Moore_algoritm))
+    print(call_search(Knuth_Morris_Pratt_algoritm))
