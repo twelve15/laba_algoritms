@@ -1,0 +1,23 @@
+import math
+
+from wikitxt import *
+from searching import Knuth_Morris_Pratt_algoritm
+from math import *
+if __name__ == "__main__":
+    referat = get_referat_text("Система управления базами данных.docx")
+    # referat = notpunctuation(referat)
+
+    wikipage = get_wikipedia_text("Система управления базами данных")
+    # wikipage = notpunctuation(wikipage)
+
+    referat_list = referat.split() # исходный реферат
+    referat_len = len(referat) * 10 # длина реферата
+    plagiat_sums = 0 # счетчик суммы плагиатов
+
+    for rl in range(len(referat_list) - 2): # цикл по длине реферата проходит и перебирает символ
+        search_str = " ".join(referat_list[rl: rl + 3])
+        count_found = Knuth_Morris_Pratt_algoritm(search_str, wikipage) # используем кнута морриса пратта т.к. он является самым быстрым и оптимальным алгоритмом
+        plagiat_sums += len(search_str) * count_found # тут и так понятно пусть будет коммент)
+
+    plagiat = math.ceil((plagiat_sums / referat_len) * 100) # процентное соотношение плагиата
+    print(f'Процентное соотношение плагиата равняется - {plagiat} %')
