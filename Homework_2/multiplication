@@ -1,0 +1,32 @@
+from random import uniform
+
+
+def str_to_int_value(str): # c помощью ord превращаем строку в числовое значение
+    s = 0
+    for i in range(len(str)):
+        s += ord(str[i])
+    return s
+
+
+def hash(M, massive, C): #функция хеширования, которая создает словарь с ключпми: индекса
+    h = {}
+    for i in massive:
+        if i.isdigit():# возвращаем число если i равняется числом
+            K = int(i)
+        else:
+            K = str_to_int_value(i)# с помощью функции превращения строки в число превращаем i-элемент
+        index = int(M * ((K * C) % 1))
+        h[i] = index
+    return h
+
+
+M = int(input('Введите длину массив:\n'))
+massive = input('Введите ключи через пробел:\n').split()
+C = uniform(0, 1)#генерируем рандомное C по теории из лекции
+print('C:', C)
+print('Значение хэш-функции для введенного ключа:')
+
+h = hash(M, massive, C)
+
+for a in h:
+    print('h(', a,') = ', h[a], sep='')
