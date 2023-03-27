@@ -1,0 +1,83 @@
+import math
+
+
+class Graph:
+    def __init__(self, name):
+        self.Nodes = {}
+        self.Name = name
+
+    def GetNodes(self):
+        return self.Nodes
+
+    def SetNode(self, nodes):
+        for i in nodes:
+            self.Nodes[i[0]] = i[1]
+
+    def AdjacencyMatrixBuilder(self, nodes):
+        N = len(nodes)
+        adjacencyMatrix = []
+        for i in range(N):
+            currentNodes = nodes[i].GetNodes()
+            currentMatrix = []
+            for j in range(N):
+                if j in currentNodes.keys():
+                    currentMatrix.append(currentNodes[j])
+                else:
+                    currentMatrix.append(math.inf)
+            adjacencyMatrix.append(currentMatrix)
+        return adjacencyMatrix
+
+
+dot0 = Graph("Сидней")
+dot_0 = [[1, 147], [2, 28], [3, 56], [4, 189], [5, 12]]
+
+dot1 = Graph("Мельбурн")
+dot_1 = [[0, 102], [2, 32], [3, 124], [4, 178], [5, 15]]
+
+dot2 = Graph("Брисбен")
+dot_2 = [[0, 46], [1, 122], [3, 131], [4, 113], [5, 25]]
+
+dot3 = Graph("Перт")
+dot_3 = [[0, 121], [1, 156], [2, 10], [4, 124], [5, 129]]
+
+dot4 = Graph("Аделаида")
+dot_4 = [[0, 152], [1, 78], [2, 113], [3, 164], [5, 137]]
+
+dot5 = Graph("Голд-Кост")
+dot_5 = [[0, 11], [1, 175], [2, 25], [3, 128], [4, 137]]
+
+test_array = [dot0, dot1, dot2, dot3, dot4, dot5]
+test_array_1 = [dot_0, dot_1, dot_2, dot_3, dot_4, dot_5]
+for i in range(len(test_array)):
+    test_array[i].SetNode(test_array_1[i])
+
+adjacency_matrix = Graph("начало").AdjacencyMatrixBuilder(test_array)
+
+town_name = {0: "Сидней", 1: "Мельбурн", 2: "Брисбен", 3: "Перт", 4: "Аделаида", 5: "Голд-Кост"}
+
+print(f"Расстояние от населенного пункта {test_array[0].Name}")
+
+N = len(adjacency_matrix)
+used = [0]
+table = [[]]
+for i in range(N):
+    if adjacency_matrix[0][i] == 0:
+        table[0].append(math.inf)
+    else:
+        table[0].append(adjacency_matrix[0][i])
+count = 1
+used = [0]
+for i in range(1, N):
+    current = table[i - 1].index(min(table[i - 1]))
+    current_len = table[i - 1][current]
+    print(f"Точка: {town_name[current]}, Длина пути {current_len}")
+    used.append(current)
+    new_table = []
+    # print("used: ", used)
+    for j in range(N):
+        if j in used:
+            new_table.append(math.inf)
+        else:
+            new_table.append(min(table[i - 1][j], adjacency_matrix[current][j] + current_len))
+    table.append(new_table)
+
