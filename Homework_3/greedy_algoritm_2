@@ -1,0 +1,28 @@
+from random import randint
+N = int(input('Введите количество экспонатов за которыми охотиться вор: '))       # количество экспонатов, которые вор хочет украсть
+max_weight = int(input('Введите максимальный вес который может унести вор: '))
+treasures = {}
+for i in range(int(input('Введите количество имеющихся экспонатов: '))):   # добавляем экспонаты
+    treasures[randint(1, 30)] = randint(1, 30)
+print(f"Словарь с экспонатами: {treasures}")
+print(f"Максимальный вес который сможет унести вор: {max_weight}")
+
+count = 0
+price = 0
+while count < N:
+    current_weight = 0
+    while current_weight < max_weight:
+        check = False
+        for i in reversed(sorted(treasures.keys())):
+            if treasures[i] <= (max_weight - current_weight):
+                price += i
+                print(f"Цена украденного: {i}; Вес украденного: {treasures[i]}")
+                current_weight += treasures[i]
+                max_weight -= current_weight
+                treasures.pop(i)
+                check = True
+                break
+        if check == False:
+            break
+    count += 1
+print("Конечная цена: ", price)
