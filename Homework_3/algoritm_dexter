@@ -73,7 +73,6 @@ for i in range(1, N):
     print(f"Точка: {town_name[current]}, Длина пути {current_len}")
     used.append(current)
     new_table = []
-    # print("used: ", used)
     for j in range(N):
         if j in used:
             new_table.append(math.inf)
