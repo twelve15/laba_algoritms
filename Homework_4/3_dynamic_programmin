@@ -1,0 +1,26 @@
+from random import randint
+
+
+def sequence():
+    n = int(input('Введите чему равно n: '))
+    a = [randint(-100, 100) for _ in range(n)]
+    max_len = 0
+    current_len = 1
+    max_sequence = []
+    current_sequence = [a[0]]
+    for i in range(1, n):
+        if a[i] > a[i-1]:
+            current_len += 1
+            current_sequence.append(a[i])
+            if current_len > max_len:
+                max_len = current_len
+                max_sequence = current_sequence
+        else:
+            current_len = 1
+            current_sequence = [a[i]]
+    print('Начальный массив: ', a)
+    print(f'Максимальная длина массива: {max_len}')
+    print(f'Максимальная последовательность: {max_sequence}')
+
+
+sequence()
